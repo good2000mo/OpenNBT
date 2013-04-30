@@ -1,0 +1,11 @@
+bin
+lib
+ext
+.settings
+.classpath
+.project
+.git
+target
+.DS_Store
+._*
+

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="jar" name="OpenNBT">
+	<property name="binary.version" value="1.1-SNAPSHOT"/>
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="OpenNBT.classpath">
+        <pathelement location="bin"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+    	<mkdir dir="target"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src/main/java">
+                <exclude name="**/*.ucls"/>
+                <exclude name="**/*.useq"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    	<delete dir="target"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+	
+    <target depends="build-project" name="build"/>
+	
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src/main/java"/>
+            <classpath refid="OpenNBT.classpath"/>
+        </javac>
+    </target>
+    
+	<target name="jar" description="package a jar" depends="cleanall, build">
+		<jar destfile="target/opennbt-${binary.version}.jar" basedir="bin" duplicate="preserve">
+			<manifest>
+				<attribute name="Implementation-Version" value="${binary.version}" />
+			</manifest>
+		</jar>
+	</target>
+</project>
